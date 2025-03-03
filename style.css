@@ -1,0 +1,108 @@
+body {
+    font-family: helvetica, arial, sans-serif;
+}
+
+.hidden {
+    display: none;
+}
+
+h1, h2 {
+    text-align: center;
+    background-color: darkblue;
+    color: white;
+}
+
+table {
+    margin: 2rem auto;
+}
+
+td, th {
+    font-family: helvetica, arial, sans-serif;
+    border: 1px gray solid;
+    text-align: center;
+    padding: 0.25rem 0.5rem;
+    min-width: 10rem;
+}
+
+button {
+    background-color: white;
+    border: 1px solid black;
+    height: 2.5rem;
+    width: 7.5rem;
+    border-radius: 0.25rem;
+    background-color: #eee;
+    font-size: 1rem;
+    color: black;
+}
+
+button:hover {
+    background-color: #ddd;
+}
+
+button:active {
+    background-color: #bbd;
+}
+
+dialog {
+    max-width:45rem;
+    padding: 1.5rem;
+    border: 1px solid black;
+    box-shadow: 0 0 1rem black;
+    line-height: 1.6;
+}
+
+dialog::backdrop {
+    backdrop-filter: blur(3px);
+}
+
+code {
+    font-size: 1.05rem;
+    color: darkgreen;
+}
+
+.j-result-block {
+    border: 1px solid black;
+    margin: 1rem auto;
+    max-width: 40rem;
+}
+
+.j-result-block h2 {
+    margin: 0 0 2rem;
+}
+
+.j-input {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 1rem;
+    gap: 1rem;
+    background-color: white;
+}
+
+.j-input input {
+    font-size: 1.25rem;
+    text-align: center;
+    height: 2rem;
+    padding: 0.25rem;
+    border: 1px solid gray;
+}
+
+.j-input input:invalid {
+    background-color: #fee;
+}
+
+.j-scroll-container {
+    overflow-x: auto;
+}
+
+.j-table-ref {
+    color: gray;
+}
+
+.j-license {
+    margin-bottom: -1rem;
+}
+
+.j-button-bar {
+    text-align: right;
+}

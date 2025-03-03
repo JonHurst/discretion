@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta charset='UTF-8'/>
+    <title>Discretion calculator</title>
+    <link rel="stylesheet" type="text/css" href="style.css"/>
+    <script src="script.js" type="module"></script>
+    <link rel="modulepreload" href="modules/luxon.js" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <link rel="apple-touch-icon" href="icon-180x180.png"/>
+    <link rel="icon" href="icon-192.png"/>
+    <link rel="icon" href="icon.svg" type="image/svg+xml"/>
+    <link rel="manifest" href="discretion.webmanifest" crossorigin="use-credentials"/>
+  </head>
+  <body>
+    <dialog id="help-modal">
+      <h2>Input</h2>
+
+      <p>Enter either <b>5 or 6 digits</b>. The <b>first 4 digits</b> are the
+        UTC time of report in the form HHMM, where HH is hours and MM is
+        minutes. The <b>5th digit</b> is the number of sectors. For
+        example, <code>06004</code> is a four sector day reporting at 06:00
+        UTC. The optional <b>6th digit</b> is a fixed UTC offset for acclimatised
+        timezone. If this digit is omitted, Europe/London will be used.
+
+        <h2>Output</h2>
+      <p>Latest UTC “on blocks” times for zero discretion and max discretion
+        are provided.</p>
+      <p>If there is an <b>e</b> indicator on your roster, use
+        the <b>Extended</b> results, otherwise use the <b>Standard</b>
+        results.</p>
+      <p>If “on blocks” time is after the BALPA “No discretion” time but before
+        the OMA “No discretion” time, <b>Captain’s Authorization</b> is being
+        used. If it is after the OMA “No discretion” time, <b>Captain’s
+        Discretion</b> is being used.</p>
+      <div class="j-button-bar">
+        <button autofocus id="close-modal">Close help</button>
+      </div>
+    </dialog>
+    <div class="j-license">
+      Version: <b>0.9.1</b> License: <a href="https://www.gnu.org/licenses/gpl-3.0.en.html">GPLv3</a>
+      (<a href="https://github.com/JonHurst/discretion">source</a>)
+    </div>
+    <h1>Discretion calculator</h1>
+    <div class="j-input">
+      <input type="text" inputmode="numeric" id="query" pattern="[\d\s]*"
+             spellcheck="false" autocomplete="off" />
+      <button id="help">Help</button>
+    </div>
+    <div class="hidden" id="result">
+      <div class="j-result-block">
+        <h2>Input</h2>
+        <div class="j-scroll-container">
+          <table>
+            <tr><th>Report</th><th>Timezone</th><th>Sectors</th></tr>
+            <tr><td id="input_report"></td><td id="input_tz"></td><td id="input_sectors"></td></tr>
+          </table>
+        </div>
+      </div>
+      <div class="j-result-block j-result-block--standard">
+        <h2>Standard — BALPA</h2>
+        <div class="j-scroll-container">
+          <table>
+            <tr><th>Role</th><th>No discretion</th><th>With discretion</th></tr>
+            <tr><th>UK Flight Crew <span class="j-table-ref">(i2)</span></th>
+              <td id="i2"></td><td id="i2_disc"></td></tr>
+            <tr><th>UK Cabin Crew  <span class="j-table-ref">(i1)</span></th>
+              <td id="i1"></td><td id="i1_disc"></td></tr>
+          </table>
+        </div>
+      </div>
+      <div class="j-result-block j-result-block--standard">
+        <h2>Standard — OMA</h2>
+        <div class="j-scroll-container">
+          <table>
+            <tr><th>Role</th><th>No discretion</th><th>With discretion</th></tr>
+            <tr><th>All UK Crew  <span class="j-table-ref">(oma)</span></th>
+              <td id="oma"></td><td id="oma_disc"></td></tr>
+          </table>
+        </div>
+      </div>
+      <div class="j-result-block j-result-block--extended">
+        <h2>Extended — BALPA</h2>
+        <div class="j-scroll-container">
+          <table>
+            <tr><th>Role</th><th>No discretion</th><th>With discretion</th></tr>
+            <tr><th>All UK Crew  <span class="j-table-ref">(j1)</span></th>
+              <td id="j1"></td><td id="j1_disc"></td></tr>
+          </table>
+        </div>
+      </div>
+      <div class="j-result-block j-result-block--extended">
+        <h2>Extended — OMA</h2>
+        <div class="j-scroll-container">
+          <table>
+            <tr><th>Role</th><th>No discretion</th><th>With discretion</th></tr>
+            <tr><th>All UK Crew <span class="j-table-ref">(oma-x)</span></th><td id="omax"></td><td id="omax_disc"></td></tr>
+          </table>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>
