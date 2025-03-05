@@ -176,8 +176,10 @@ function main() {
     onInputChanged();
     ID("query").addEventListener("input", onInputChanged);
     ID("help").addEventListener("click", () => ID("help-modal").showModal());
-    ID("close-modal").addEventListener("click", () => ID("help-modal").close());
-    navigator?.serviceWorker.register('sw.js');
+    ID("close-modal").addEventListener("click", () => {
+        ID("help-modal").close();
+        ID("query").focus();});
+    navigator?.serviceWorker?.register('sw.js');
 }
 
 
