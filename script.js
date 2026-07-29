@@ -1,6 +1,6 @@
 "use strict";
 
-import { DateTime, Duration, Settings } from "./modules/luxon.js";
+import { DateTime, Duration, Settings } from "./luxon.js";
 
 const ZONE = "Europe/London";
 const ID = id => document.getElementById(id);

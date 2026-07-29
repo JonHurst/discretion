@@ -1,46 +1,75 @@
-"use strict";
+const META = {
+    "VERSION": "1.0",
+    "MANIFEST": [
+    "index.html",
+    "style.css",
+    "script.js",
+    "luxon.js",
+    "icon.svg",
+    "icon-180x180.png",
+    "icon-192.png",
+    "discretion.webmanifest"
+    ]
+}
+const APP_ID = "discretin";
+const CACHE = `${APP_ID}.${META["VERSION"]}`;
+const LANDING_PAGE = "index.html";
 
-var CACHE_VERSION = 1;
-var CACHE_NAME = `discretion_cache_v${CACHE_VERSION}`;
-var CACHE_FILES = [
-    'index.html',
-    'style.css',
-    'script.js',
-    'modules/luxon.js',
-    'icon.svg',
-    'icon-180x180.png',
-    'icon-192.png',
-    'discretion.webmanifest',
-];
 
-
-function fill_cache(cache) {
-    return cache.addAll(CACHE_FILES);
+async function add_files(cache) {
+    META["MANIFEST"].push(".");
+    await cache.addAll(META["MANIFEST"]);
+    let responses = await cache.matchAll();
+    let bad = responses
+        .filter(r => r.headers.get("cache-control") == "no-cache")
+        .filter(r => r.headers.get("x-amz-meta-version") != META["VERSION"]);
+    if(bad.length) throw Error("Inconsistent");
 }
 
 
-function install_sw(event) {
+self.addEventListener('install', event => {
+    self.skipWaiting();
     event.waitUntil(
-        self.caches.open(CACHE_NAME).then(fill_cache));
-}
+        caches.open(CACHE)
+            .then(cache => add_files(cache))
+            .catch(err => {
+                console.log(`Error initialising cache: \n${err}`);
+                return Promise.reject();
+            }));
+});
 
 
-function do_fetch(event) {
+self.addEventListener("activate", (event) => {
+    event.waitUntil(Promise.all([
+        caches.keys()
+            .then(key_list => key_list.filter(k =>
+                k.startsWith(APP_ID) && k != CACHE))
+            .then(del_list => Promise.all(
+                del_list.map(k => caches.delete(k)))),
+        self.clients.matchAll()
+            .then(clients => {
+                for(let client of clients) {
+                    client.navigate(LANDING_PAGE);
+                }
+            })
+    ]));
+});
+
+
+self.addEventListener('fetch', event => {
     event.respondWith(
-        self.fetch(event.request, {cache: "no-store"}).then(
-            function(response) {
-                let rclone = response.clone();
-                self.caches.open(CACHE_NAME).then(
-                    function (cache) {
-                        cache.put(event.request, rclone);
+        caches.open(CACHE)
+            .then(cache => cache.match(event.request.url))
+            .then(response => {
+                if(response) {
+                    return response;
+                } else {
+                    console.log(`Failed to find ${event.request.url} in ${CACHE}`);
+                    return new Response(null, {
+                        status: 404,
+                        statusText: `${event.request.url} not in ${CACHE}`
                     });
-                return response;
-            }).catch(
-                function() {
-                    return self.caches.match(event.request);
+                }
             })
     );
-}
-
-self.addEventListener('install', install_sw);
-self.addEventListener('fetch', do_fetch);
+});

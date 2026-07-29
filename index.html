@@ -14,6 +14,9 @@
   </head>
   <body>
     <dialog id="help-modal">
+      <div class="j-button-bar">
+        <button autofocus id="close-modal">Close</button>
+      </div>
       <h2>Input</h2>
 
       <p>Enter either <b>5 or 6 digits</b>. The <b>first 4 digits</b> are the
@@ -33,15 +36,8 @@
         the OMA “No discretion” time, <b>Captain’s Authorization</b> is being
         used. If it is after the OMA “No discretion” time, <b>Captain’s
         Discretion</b> is being used.</p>
-      <div class="j-button-bar">
-        <button autofocus id="close-modal">Close help</button>
-      </div>
     </dialog>
-    <div class="j-license">
-      Version: <b>0.9.1</b> License: <a href="https://www.gnu.org/licenses/gpl-3.0.en.html">GPLv3</a>
-      (<a href="https://github.com/JonHurst/discretion">source</a>)
-    </div>
-    <h1>Discretion calculator</h1>
+    <div class="j-version"><span id="version"></span></div>
     <div class="j-input">
       <input type="text" inputmode="numeric" id="query" pattern="[\d\s]*"
              spellcheck="false" autocomplete="off" />
