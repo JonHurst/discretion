@@ -1,17 +1,17 @@
 const META = {
-    "VERSION": "1.0",
+    "VERSION": "1.0.3",
     "MANIFEST": [
     "index.html",
     "style.css",
     "script.js",
     "luxon.js",
-    "icon.svg",
-    "icon-180x180.png",
-    "icon-192.png",
+    "icon.1.svg",
+    "icon-180.1.png",
+    "icon-192.1.png",
     "discretion.webmanifest"
     ]
 }
-const APP_ID = "discretin";
+const APP_ID = "discretion";
 const CACHE = `${APP_ID}.${META["VERSION"]}`;
 const LANDING_PAGE = "index.html";
 
